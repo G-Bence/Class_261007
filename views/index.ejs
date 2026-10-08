@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2><%= title %></h2>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Views</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(article => { %>
+                <tr style="font-weight: <%= article.views > 1000 ? 'bold' : 'normal' %>;">
+                    <td><a href="<%= article.url %>" target="_blank"><%= article.title %></a></td>
+                    <td><%= article.views %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <a href="/filter">Filter Articles</a><br>
+    <a href="/newArticle">Add New Article</a>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h2>
+        <%= title %>
+    </h2>
+    <br>
+    <form method="post" id="newArticleForm">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" placeholder="Enter the new title"><br><br>
+        <label for="views">Views:</label><br>
+        <input type="number" id="views" name="views" placeholder="Enter the views"><br><br>
+        <button type="submit">Add Article</button>
+    </form>
+    <br>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Views</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (data.length) { %>
+        <% data.forEach(article=> { %>
+            <tr style="font-weight: <%= article.views > 1000 ? 'bold' : 'normal' %>;">
+                <td><a href="<%= article.url %>" target="_blank">
+                        <%= article.title %>
+                    </a></td>
+                <td>
+                    <%= article.views %>
+                </td>
+            </tr>
+            <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <% if(locals.success){ %>
+        <!-- <% /*document.getElementById('newArticleForm').onsubmit = function() { this.reset(); };*/ %> -->
+        <br>
+        <br>
+        <p style="color:green">Sikeres létrehozás</p><br>
+        <a href="/">Back to Home</a>
+    <% } else { %>
+        <p style="color:red">Hiba történt a létrehozás során</p><br>
+    <% } %>
+
+</body>
+</html>
