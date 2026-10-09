@@ -16,10 +16,12 @@
     </h2>
     <br>
     <form method="post" id="newArticleForm">
+        <label for="url">URL:</label><br>
+        <input type="text" id="url" name="url" placeholder="Enter the new URL" value="<%= formData.url %>"><br><br>
         <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" placeholder="Enter the new title"><br><br>
+        <input type="text" id="title" name="title" placeholder="Enter the new title" value="<%= formData.title %>"><br><br>
         <label for="views">Views:</label><br>
-        <input type="number" id="views" name="views" placeholder="Enter the views"><br><br>
+        <input type="number" id="views" name="views" placeholder="Enter the views" value="<%= formData.views %>"><br><br>
         <button type="submit">Add Article</button>
     </form>
     <br>
@@ -49,13 +51,12 @@
     <br>
     <br>
     <% if(locals.success){ %>
-        <!-- <% /*document.getElementById('newArticleForm').onsubmit = function() { this.reset(); };*/ %> -->
         <br>
         <br>
-        <p style="color:green">Sikeres létrehozás</p><br>
+        <p style="color:green"><%= message %></p><br>
         <a href="/">Back to Home</a>
     <% } else { %>
-        <p style="color:red">Hiba történt a létrehozás során</p><br>
+        <p style="color:red">><%= message %></p><br>
     <% } %>
 
 </body>

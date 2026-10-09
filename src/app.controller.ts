@@ -33,8 +33,10 @@ export class AppController {
   @Render('newArticle')
   getNewArticleForm() {
     return {
+      message: '',
       title: 'Add New Article',
-      data: this.articles
+      data: this.articles,
+      formData: { title: '', url: '', views: '' }
     }
   }
 
@@ -42,18 +44,62 @@ export class AppController {
   @Post('newArticle')
   @Render('newArticle')
   getNewArticle(@Body() body: ArticleViewDto) {
-    const newArticleData: ArticleView = {
-      title : body.title,
-      url: body.url,
-      views: parseInt(body.views)
+    let isSuccess = true;
+    const formData = {
+      title: body?.title ?? '',
+      url: body?.url ?? '',
+      views: body?.views ?? ''
     };
-    this.articles.push(newArticleData);
-    
-    
+
+    if(!formData.title.trim() || !formData.url.trim() || !formData.views.trim() || isNaN(parseInt(formData.views))) {
+      isSuccess = false;
+      return {
+        title: 'Add New Article',
+        message: 'You must fill all the fields!',
+        success: isSuccess,
+        data: this.articles,
+        formData
+      };
+    }
+
+    if(parseInt(formData.views) < 0) {
+      isSuccess = false;
+      return {
+        title: 'Add New Article',
+        message: 'Views must be a non-negative number!',
+        success: isSuccess,
+        data: this.articles,
+        formData
+      };
+    }
+
+
+    if(!formData.url.startsWith('https://')) {
+      isSuccess = false;
+      return {
+        title: 'Add New Article',
+        message: 'URL must start with https://',
+        success: isSuccess,
+        data: this.articles,
+        formData
+      };
+    }
+
+    const newArticleData: ArticleView = {
+      title: formData.title,
+      url: formData.url,
+      views: parseInt(formData.views)
+    };
+    if(isSuccess) {
+      this.articles.push(newArticleData);
+    }
+
     return {
       title: 'Add New Article',
-      success: true,
-      data: this.articles
+      message: 'New article created successfully!',
+      success: isSuccess,
+      data: this.articles,
+      formData: { title: '', url: '', views: '' }
     };
 
   }
